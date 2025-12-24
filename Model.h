@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <cmath>
+#include <SFML/Graphics.hpp>
+#include <string>
 
 namespace mdl3D
 {
@@ -53,11 +55,12 @@ namespace mdl3D
 	{
 	public:
 		Model(
+			std::string name,
 			Space* space,
 			Vertex pos,
 			std::vector<Edge> edges,
 			sf::Color color = sf::Color::White)
-			: space(space), position(pos), edges(edges), color(color)
+			: name(name), space(space), position(pos), edges(edges), color(color)
 		{
 			space->models.push_back(this);
 		}
@@ -77,10 +80,11 @@ namespace mdl3D
 		void moveZ(int len);
 
 		// геттеры
+		std::string get_name()			{ return name; }
 		std::vector<Edge>* get_edges()  { return &edges; }
 		Vertex* get_position()          { return &position; }
 		Space* get_space()              { return space; }
-		sf::Color get_color()		    { return color; }
+		sf::Color* get_color()		    { return &color; }
 
 		//
 		void set_edges(std::vector<Edge> edgs) { edges = edgs; }
@@ -97,6 +101,7 @@ namespace mdl3D
 		Vertex position;
 		Space* space;
 		sf::Color color;
+		std::string name;
 	};
 
 	//template<class T>

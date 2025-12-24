@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <iostream>
 #include "Model.h"
+#include "Terminal.h"
 
 
 int main()
@@ -9,6 +10,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1200, 700), "SFML works!");
 
     mdl3D::Space space(500, 0, 100, 200, 100, 200, 0, 200); //  = { 300, 0, 300, 200, 200, 0, 0, 50 };
+    Terminal terminal(&space);
 
     // ¬ј∆Ќќ!!! координаты вершины Ќ≈ указывают на ее расположение во всем пространстве
     
@@ -23,6 +25,7 @@ int main()
     mdl3D::Vertex D1 = { 50,50,-50 };
 
     mdl3D::Model cube(
+        "cube 1",
         &space, // пространство, которому принадлежит модель
         { 75, 100, 50 }, // координаты модели (центр мини-системы координат, наход€щейс€ в основном пространстве)
         {
@@ -33,6 +36,7 @@ int main()
         sf::Color(0, 255, 0) // цвет модели (необ€зательно)
     );
     mdl3D::Model cube2(
+        "cube 2",
         &space, // пространство, которому принадлежит модель
         { 250, 100, 50 }, // координаты модели (центр мини-системы координат, наход€щейс€ в основном пространстве)
         {
@@ -49,6 +53,7 @@ int main()
     unsigned sel_model = 0;
     mdl3D::Model* selected_model = NULL;
 
+    terminal.print_stats();
 
     while (window.isOpen())
     {

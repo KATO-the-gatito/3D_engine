@@ -123,8 +123,8 @@ void mdl3D::Space::showAxes(sf::RenderWindow& window, int len, Model* mdl, sf::C
 		),
 		sf::Vertex(
 			sf::Vector2f(
-				x + (0 + shift.x - x_cam) * focus / (y_cam + shift.y + (y - len) <= 0 ? 1 : distance + shift.y + (y - len) + y_cam),
-				z + (0 - shift.z + z_cam) * focus / (y_cam + shift.y + (y - len) <= 0 ? 1 : distance + shift.y + (y - len) + y_cam)
+				x + (0 + shift.x - x_cam) * focus / (distance + shift.y + (y - len) <= 0 ? 1 : distance + shift.y + (y - len) + y_cam),
+				z + (0 - shift.z + z_cam) * focus / (distance + shift.y + (y - len) <= 0 ? 1 : distance + shift.y + (y - len) + y_cam)
 			),
 			color
 		)
