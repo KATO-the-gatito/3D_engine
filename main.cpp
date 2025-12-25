@@ -75,6 +75,10 @@ int main()
                 case sf::Keyboard::Numpad2:
                     sel_model = 1;
                     break;
+                case sf::Keyboard::T:
+                    terminal.enter();
+                    break;
+                
 
                 // изменение параметров пространства
 

@@ -66,7 +66,7 @@ namespace mdl3D
 		}
 		const unsigned char id = '1';
 
-		//вывод на экран модели
+		//вывод модели на экран 
 		void draw(sf::RenderWindow& window);
 
 		//вращение по осям
@@ -86,7 +86,7 @@ namespace mdl3D
 		Space* get_space()              { return space; }
 		sf::Color* get_color()		    { return &color; }
 
-		//
+		// сеттеры
 		void set_edges(std::vector<Edge> edgs) { edges = edgs; }
 		void set_position(Vertex pos)          { position = pos; }
 		void set_space(Space* sps)             { space = sps; }
