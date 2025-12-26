@@ -3,13 +3,18 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <Windows.h>
+
+#define COLOR_ERROR 4
+#define COLOR_SUCCESS 10
+#define COLOR_NORMAL 7
 
 using byte = unsigned char;
 
 class Terminal
 {
 public:
-	Terminal(mdl3D::Space* space) : space(space)
+	Terminal(mdl3D::Space* space) : space(space), pen(GetStdHandle(STD_OUTPUT_HANDLE))
 	{
 		printf("Terminal start...\n");
 	}
@@ -19,11 +24,13 @@ public:
 
 private:
 	mdl3D::Space* space;
+	HANDLE pen;
+
 	std::map<std::string, byte> commands_dict {
 		{"exit", 1}, {"create", 2}
 	};
 	std::map<std::string, byte> commands_create_dict{
-		{"type", 1}, {"name", 2}, {"color", 3}
+		{"type", 1}, {"name", 2}, {"color", 3}, {"colorRGB", 4}
 	};
 	std::map<std::string, byte> types_dict {
 		{"model", 1}, {"cube", 2}

@@ -78,6 +78,9 @@ int main()
                 case sf::Keyboard::T:
                     terminal.enter();
                     break;
+                case sf::Keyboard::G:
+                    terminal.print_stats();
+                    break;
                 
 
                 // изменение параметров пространства
@@ -182,11 +185,14 @@ int main()
 
         window.clear();
 
-        cube.draw(window);
-        cube2.draw(window);
+        //cube.draw(window);
+        //cube2.draw(window);
         space.showAxes(window, 1000);
-        space.showAxes(window, 50, &cube, sf::Color::Red);
-        space.showAxes(window, 50, &cube2, sf::Color::Red);
+
+        for (mdl3D::Model* mdl : space.models) {
+            mdl->draw(window);
+            space.showAxes(window, 50, mdl, sf::Color::Red);
+        }
 
         //cube.rotateZ(0.05); //0.05 the best
         //space.rotateX(-0.05);

@@ -18,7 +18,7 @@ std::vector<std::string> split(std::string str, byte ch = ' ') {
 	return v;
 }
 
-int Terminal::enter() {
+int Terminal::enter() { // create type cube 50 | color green | name supercube
 	std::string command;
 	std::vector<std::string> parsed_command;
 
@@ -26,102 +26,100 @@ int Terminal::enter() {
 	std::cin >> command;
 	parsed_command = split(command);
 
-	switch (commands_dict[command]) 
+	switch (commands_dict[command]) // <exit> <create>
 	{
 	case 1: // exit
 		return 0;
 	case 2: // create
 	{
+		std::vector<mdl3D::Edge> edges;
+		std::string name;
+		sf::Color color;
+
+command_handler:
 		std::string cmd;
-		std::cin >> cmd
+		std::cin >> cmd;
 
-		switch ()
-	}
-	}
-
-	return 0;
-
-	try
-	{
-		switch (commands_dict[parsed_command[0]])
+		switch (commands_create_dict[cmd]) // <type> <name> <color> 
 		{
-		case 1: // exit
-			return 1;
-		case 2: // create [type] [name] [size] [color [R] [G] [B], [color]]
-		{
-			std::vector<mdl3D::Edge> edges;
-			sf::Color color;
-
-			try
+		case 1: // type
 			{
-				if (parsed_command[4] == "color")
-					color = sf::Color(std::stoi(parsed_command[5]), std::stoi(parsed_command[6]), std::stoi(parsed_command[7]));
-				else if (parsed_command.size() <= 4)
-					color = sf::Color::White;
-				else
-					color = colors_dict[parsed_command[4]];
-			}
-			catch (...) {
-				throw 1;
-			}
+			std::string type;
+			std::cin >> type;
 
-			try
+			switch (types_dict[type]) // <model> <cube>
 			{
-				switch (types_dict[parsed_command[1]])
+			case 1: // model
+				//...
+				break;
+			case 2: // cube
 				{
-				case 1: // model
-					break;
-				case 2: // cube
-				{
-					int size = std::stoi(parsed_command[3]);
-					mdl3D::Vertex A = { size,-size,size };
-					mdl3D::Vertex B = { -size,-size,size };
-					mdl3D::Vertex C = { -size,size,size };
-					mdl3D::Vertex D = { size,size,size };
-					mdl3D::Vertex A1 = { size,-size,-size };
-					mdl3D::Vertex B1 = { -size,-size,-size };
-					mdl3D::Vertex C1 = { -size,size,-size };
-					mdl3D::Vertex D1 = { size,size,-size };
+				int size;
+				std::cin >> size;
 
-					edges = std::vector<mdl3D::Edge>(
-						{
-							{A, B}, {B, C}, {C, D}, {D, A},
-							{A1, B1}, {B1, C1}, {C1, D1}, {D1, A1},
-							{A, A1}, {B, B1}, {C, C1}, {D, D1}
-						}
-					);
+				mdl3D::Vertex A = { size,-size,size };
+				mdl3D::Vertex B = { -size,-size,size };
+				mdl3D::Vertex C = { -size,size,size };
+				mdl3D::Vertex D = { size,size,size };
+				mdl3D::Vertex A1 = { size,-size,-size };
+				mdl3D::Vertex B1 = { -size,-size,-size };
+				mdl3D::Vertex C1 = { -size,size,-size };
+				mdl3D::Vertex D1 = { size,size,-size };
+
+				edges = std::vector<mdl3D::Edge>(
+					{
+						{A, B}, {B, C}, {C, D}, {D, A},
+						{A1, B1}, {B1, C1}, {C1, D1}, {D1, A1},
+						{A, A1}, {B, B1}, {C, C1}, {D, D1}
+					}
+				);
 				}
 				break;
-				}
 			}
-			catch (...) {
-				throw 2;
 			}
+			break;
+		case 2: // name
+			{
+			std::cin >> name;
+			}
+			break;
+		case 3: // color
+			{
+			std::string clr;
+			std::cin >> clr;
+			color = colors_dict[clr];
+			}
+			break;
+		case 4: // colorRGB
+			{
+			byte R, G, B;
+			std::cin >> R >> G >> B;
+			color = sf::Color(R, G, B);
+			}
+			break;
+		}
 
+		std::string sep_sym;
+		std::cin >> sep_sym;
+
+		if (sep_sym == "|")
+			goto command_handler;
+		else if (sep_sym == "<") {
 			mdl3D::Model* cube = new mdl3D::Model(
-				parsed_command[2],
+				name,
 				space,
 				{ 0, 0, 0 },
 				edges,
 				color
 			);
+			SetConsoleTextAttribute(pen, COLOR_SUCCESS);
+			printf("model created successfully\n");
+			SetConsoleTextAttribute(pen, COLOR_NORMAL);
 		}
+	}
 		break;
-		default:
-			break;
-		}
 	}
-	catch (int err_code) {
-		switch (err_code) 
-		{
-		case 1:
-			perror("wrong color");
-			return err_code;
-		case 2:
-			perror("wrong type of model");
-			return err_code;
-		}
-	}
+
 	return 0;
 }
 void Terminal::print_stats() {
