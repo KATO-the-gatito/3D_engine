@@ -37,8 +37,6 @@ int Terminal::enter() { // create type cube 50 | color green | name supercube
 		name += std::to_string(space->models.size() + 1);
 		sf::Color color = sf::Color::White;
 
-
-
 command_handler:
 		std::string cmd;
 		std::cin >> cmd;
@@ -127,6 +125,9 @@ command_handler:
 			}
 		}
 	}
+		break;
+	case 3:
+		print_stats();
 		break;
 	}
 
