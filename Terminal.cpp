@@ -33,8 +33,11 @@ int Terminal::enter() { // create type cube 50 | color green | name supercube
 	case 2: // create
 	{
 		std::vector<mdl3D::Edge> edges;
-		std::string name;
-		sf::Color color;
+		std::string name = "unnamed_model_";
+		name += std::to_string(space->models.size() + 1);
+		sf::Color color = sf::Color::White;
+
+
 
 command_handler:
 		std::string cmd;
@@ -105,16 +108,23 @@ command_handler:
 		if (sep_sym == "|")
 			goto command_handler;
 		else if (sep_sym == "<") {
-			mdl3D::Model* cube = new mdl3D::Model(
-				name,
-				space,
-				{ 0, 0, 0 },
-				edges,
-				color
-			);
-			SetConsoleTextAttribute(pen, COLOR_SUCCESS);
-			printf("model created successfully\n");
-			SetConsoleTextAttribute(pen, COLOR_NORMAL);
+			try {
+				mdl3D::Model* cube = new mdl3D::Model(
+					name,
+					space,
+					{ 0, 0, 0 },
+					edges,
+					color
+				);
+				SetConsoleTextAttribute(pen, COLOR_SUCCESS);
+				printf("model created successfully\n");
+				SetConsoleTextAttribute(pen, COLOR_NORMAL);
+			}
+			catch(...){
+				SetConsoleTextAttribute(pen, COLOR_ERROR);
+				printf("error when creating the model\n");
+				SetConsoleTextAttribute(pen, COLOR_NORMAL);
+			}
 		}
 	}
 		break;
