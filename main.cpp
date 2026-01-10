@@ -9,6 +9,7 @@ int main()
 {
     system("mode con cols=80 lines=25");
 
+
     sf::RenderWindow window(sf::VideoMode(1200, 700), "SFML works!");
 
     mdl3D::Space space(500, 0, 100, 200, 100, 200, 0, 200); //  = { 300, 0, 300, 200, 200, 0, 0, 50 };

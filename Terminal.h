@@ -27,7 +27,7 @@ private:
 	HANDLE pen;
 
 	std::map<std::string, byte> commands_dict {
-		{"exit", 1}, {"create", 2}, {"stats", 3}, {"select", 4}
+		{"exit", 1}, {"create", 2}, {"stats", 3}, {"select", 4}, {"cls", 5}, {"help", 6}
 	};
 	std::map<std::string, byte> commands_create_dict{
 		{"type", 1}, {"name", 2}, {"color", 3}, {"colorRGB", 4}

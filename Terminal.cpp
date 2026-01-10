@@ -126,10 +126,10 @@ command_handler:
 			SetConsoleTextAttribute(pen, COLOR_NORMAL);
 		}
 		break;
-	case 3:
+	case 3: // stats
 		print_stats();
 		break;
-	case 4:
+	case 4: // select
 		try
 		{
 			auto it_model = space->models.begin();
@@ -160,6 +160,32 @@ command_handler:
 			printf(err_message); 
 			SetConsoleTextAttribute(pen, COLOR_NORMAL);
 		}
+		break;
+	case 5: // cls
+		system("cls");
+		break;
+	case 6: // help
+		printf(
+			"---------------<Help>---------------\n"
+			"Command input syntax:\n"
+			"> [command] [additional parameters] | [additional parameters] <\n"
+			"\n"
+			"Commands:\n"
+			"> exit <               <- exits the terminal\n"
+			"> create               <- creates a new model\n"
+			"  type cube 50         <- specifies the shape of the model and its dimensions\n"
+			"  color green          <- specifies the color of the model\n"
+			"  colorRGB 255 0 200   <- specifies the RGB color of the model\n"
+			"  name my_model        <- specifies the model name\n"
+			"<\n"
+			"> stats <              <- shows data about space and models\n"
+			"> select               <- selects which specific model is being controlled for\n"
+			"  model_name           <- specifies the model name\n"
+			"<\n"
+			"> cls <                <- clears the terminal\n"
+			"> help <               <- shows the assignment of commands\n"
+			"------------------------------------\n"
+		);
 		break;
 	}
 
@@ -195,6 +221,6 @@ void Terminal::print_stats() {
 			);
 		}
 	}
-	printf("-------------------------------------------\n");
+	printf("------------------------------------\n");
 
 }
