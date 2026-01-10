@@ -7,6 +7,8 @@
 
 int main()
 {
+    system("mode con cols=80 lines=25");
+
     sf::RenderWindow window(sf::VideoMode(1200, 700), "SFML works!");
 
     mdl3D::Space space(500, 0, 100, 200, 100, 200, 0, 200); //  = { 300, 0, 300, 200, 200, 0, 0, 50 };
@@ -50,8 +52,8 @@ int main()
     
     double c = 0, angle = 0.05;
     int step = 3;
-    unsigned sel_model = 0;
-    mdl3D::Model* selected_model = NULL;
+    //unsigned sel_model = 0;
+    //mdl3D::Model* space.models[0] = NULL;
 
     terminal.print_stats();
 
@@ -69,12 +71,6 @@ int main()
                 switch (event.key.code)
                 {
                 // всякое остальное
-                case sf::Keyboard::Numpad1:
-                    sel_model = 0;
-                    break;
-                case sf::Keyboard::Numpad2:
-                    sel_model = 1;
-                    break;
                 case sf::Keyboard::T:
                     terminal.enter();
                     break;
@@ -125,62 +121,49 @@ int main()
                 
                 // X
                 case sf::Keyboard::Left:
-                    selected_model->moveX(-step);
+                    space.models[0]->moveX(-step);
                     break;
                 case sf::Keyboard::Right:
-                    selected_model->moveX(step);
+                    space.models[0]->moveX(step);
                     break;
                 // Y
                 case sf::Keyboard::Up:
-                    selected_model->moveY(step);
+                    space.models[0]->moveY(step);
                     break;
                 case sf::Keyboard::Down:
-                    selected_model->moveY(-step);
+                    space.models[0]->moveY(-step);
                     break;
                 // Z
                 case sf::Keyboard::RShift:
-                    selected_model->moveZ(step);
+                    space.models[0]->moveZ(step);
                     break;
                 case sf::Keyboard::RControl:
-                    selected_model->moveZ(-step);
+                    space.models[0]->moveZ(-step);
                     break;
                 // вращение Z
                 case sf::Keyboard::Delete:
-                    selected_model->rotateZ(-angle);
+                    space.models[0]->rotateZ(-angle);
                     break;
                 case sf::Keyboard::PageDown:
-                    selected_model->rotateZ(angle);
+                    space.models[0]->rotateZ(angle);
                     break;
                 // вращение Y
                 case sf::Keyboard::Insert:
-                    selected_model->rotateY(-angle);
+                    space.models[0]->rotateY(-angle);
                     break;
                 case sf::Keyboard::PageUp:
-                    selected_model->rotateY(angle);
+                    space.models[0]->rotateY(angle);
                     break;
                 // вращение X
                 case sf::Keyboard::Home:
-                    selected_model->rotateX(angle);
+                    space.models[0]->rotateX(angle);
                     break;
                 case sf::Keyboard::End:
-                    selected_model->rotateX(-angle);
+                    space.models[0]->rotateX(-angle);
                     break;
                 }
                 break;
             }
-        }
-
-        switch(sel_model)
-        {
-        case 0:
-            selected_model = &cube;
-            break;
-        case 1:
-            selected_model = &cube2;
-            break;
-        default:
-            selected_model = NULL;
-            break;
         }
 
         window.clear();

@@ -31,82 +31,82 @@ int Terminal::enter() { // create type cube 50 | color green | name supercube
 	case 1: // exit
 		return 0;
 	case 2: // create
-	{
-		std::vector<mdl3D::Edge> edges;
-		std::string name = "unnamed_model_";
-		name += std::to_string(space->models.size() + 1);
-		sf::Color color = sf::Color::White;
+		try
+		{
+			std::vector<mdl3D::Edge> edges;
+			std::string name = "unnamed_model_";
+			name += std::to_string(space->models.size() + 1);
+			sf::Color color = sf::Color::White;
 
 command_handler:
-		std::string cmd;
-		std::cin >> cmd;
+			std::string cmd;
+			std::cin >> cmd;
 
-		switch (commands_create_dict[cmd]) // <type> <name> <color> 
-		{
-		case 1: // type
+			switch (commands_create_dict[cmd]) // <type> <name> <color> 
 			{
-			std::string type;
-			std::cin >> type;
-
-			switch (types_dict[type]) // <model> <cube>
-			{
-			case 1: // model
-				//...
-				break;
-			case 2: // cube
+			case 1: // type
 				{
-				int size;
-				std::cin >> size;
+				std::string type;
+				std::cin >> type;
 
-				mdl3D::Vertex A = { size,-size,size };
-				mdl3D::Vertex B = { -size,-size,size };
-				mdl3D::Vertex C = { -size,size,size };
-				mdl3D::Vertex D = { size,size,size };
-				mdl3D::Vertex A1 = { size,-size,-size };
-				mdl3D::Vertex B1 = { -size,-size,-size };
-				mdl3D::Vertex C1 = { -size,size,-size };
-				mdl3D::Vertex D1 = { size,size,-size };
-
-				edges = std::vector<mdl3D::Edge>(
+				switch (types_dict[type]) // <model> <cube>
+				{
+				case 1: // model
+					//...
+					break;
+				case 2: // cube
 					{
-						{A, B}, {B, C}, {C, D}, {D, A},
-						{A1, B1}, {B1, C1}, {C1, D1}, {D1, A1},
-						{A, A1}, {B, B1}, {C, C1}, {D, D1}
+					int size;
+					std::cin >> size;
+
+					mdl3D::Vertex A = { size,-size,size };
+					mdl3D::Vertex B = { -size,-size,size };
+					mdl3D::Vertex C = { -size,size,size };
+					mdl3D::Vertex D = { size,size,size };
+					mdl3D::Vertex A1 = { size,-size,-size };
+					mdl3D::Vertex B1 = { -size,-size,-size };
+					mdl3D::Vertex C1 = { -size,size,-size };
+					mdl3D::Vertex D1 = { size,size,-size };
+
+					edges = std::vector<mdl3D::Edge>(
+						{
+							{A, B}, {B, C}, {C, D}, {D, A},
+							{A1, B1}, {B1, C1}, {C1, D1}, {D1, A1},
+							{A, A1}, {B, B1}, {C, C1}, {D, D1}
+						}
+					);
 					}
-				);
+					break;
+				}
+				}
+				break;
+			case 2: // name
+				{
+				std::cin >> name;
+				}
+				break;
+			case 3: // color
+				{
+				std::string clr;
+				std::cin >> clr;
+				color = colors_dict[clr];
+				}
+				break;
+			case 4: // colorRGB
+				{
+				int R, G, B;
+				std::cin >> R >> G >> B;
+				color = sf::Color(R, G, B);
 				}
 				break;
 			}
-			}
-			break;
-		case 2: // name
-			{
-			std::cin >> name;
-			}
-			break;
-		case 3: // color
-			{
-			std::string clr;
-			std::cin >> clr;
-			color = colors_dict[clr];
-			}
-			break;
-		case 4: // colorRGB
-			{
-			byte R, G, B;
-			std::cin >> R >> G >> B;
-			color = sf::Color(R, G, B);
-			}
-			break;
-		}
 
-		std::string sep_sym;
-		std::cin >> sep_sym;
+			std::string sep_sym;
+			std::cin >> sep_sym;
 
-		if (sep_sym == "|")
-			goto command_handler;
-		else if (sep_sym == "<") {
-			try {
+			if (sep_sym == "|")
+				goto command_handler;
+			else if (sep_sym == "<") {
 				mdl3D::Model* cube = new mdl3D::Model(
 					name,
 					space,
@@ -118,16 +118,48 @@ command_handler:
 				printf("model created successfully\n");
 				SetConsoleTextAttribute(pen, COLOR_NORMAL);
 			}
-			catch(...){
-				SetConsoleTextAttribute(pen, COLOR_ERROR);
-				printf("error when creating the model\n");
-				SetConsoleTextAttribute(pen, COLOR_NORMAL);
-			}
+			else throw "error when creating the model\n";
 		}
-	}
+		catch (const char* err_message) {
+			SetConsoleTextAttribute(pen, COLOR_ERROR);
+			printf(err_message); //error when creating the model
+			SetConsoleTextAttribute(pen, COLOR_NORMAL);
+		}
 		break;
 	case 3:
 		print_stats();
+		break;
+	case 4:
+		try
+		{
+			auto it_model = space->models.begin();
+			bool flag = false;
+		
+			std::string name;
+			std::cin >> name;
+		
+			for (auto it = space->models.begin(); it != space->models.end(); it++) {
+				if ((*it)->get_name() == name) {
+					it_model = it;
+					flag = true;
+				}
+			}
+			if (flag) {
+				mdl3D::Model* tmp_mdl = space->models[0];
+				space->models[0] = *it_model;
+				*it_model = tmp_mdl;
+
+				SetConsoleTextAttribute(pen, COLOR_SUCCESS);
+				printf("model selected\n");
+				SetConsoleTextAttribute(pen, COLOR_NORMAL);
+			}
+			else throw "There is no model with that name\n";
+		}
+		catch (const char* err_message) {
+			SetConsoleTextAttribute(pen, COLOR_ERROR);
+			printf(err_message); 
+			SetConsoleTextAttribute(pen, COLOR_NORMAL);
+		}
 		break;
 	}
 

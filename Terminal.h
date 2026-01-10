@@ -27,7 +27,7 @@ private:
 	HANDLE pen;
 
 	std::map<std::string, byte> commands_dict {
-		{"exit", 1}, {"create", 2}, {"stats", 3}
+		{"exit", 1}, {"create", 2}, {"stats", 3}, {"select", 4}
 	};
 	std::map<std::string, byte> commands_create_dict{
 		{"type", 1}, {"name", 2}, {"color", 3}, {"colorRGB", 4}
@@ -36,7 +36,8 @@ private:
 		{"model", 1}, {"cube", 2}
 	};
 	std::map<std::string, sf::Color> colors_dict {
-		{"white", sf::Color::White}, {"red", sf::Color::Red}, {"green", sf::Color::Green}, {"blue", sf::Color::Blue}
+		{"white", sf::Color::White}, {"red", sf::Color::Red}, {"green", sf::Color::Green}, {"blue", sf::Color::Blue},
+		{"cyan", sf::Color::Cyan}, {"yellow", sf::Color::Yellow}, {"magenta", sf::Color::Magenta}
 	};
 };
 
